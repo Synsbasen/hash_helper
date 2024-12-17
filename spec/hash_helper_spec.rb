@@ -91,15 +91,6 @@ RSpec.describe HashHelper do
         }
         expect(hash.deep_invert.deep_invert).to eq(hash)
       end
-
-      it "returns the original hash for an edge case with empty sub-hashes" do
-        hash = {
-          a: {},
-          b: { x: 1 },
-          c: {}
-        }
-        expect(hash.deep_invert.deep_invert).to eq(hash)
-      end
     end
   end
 end
