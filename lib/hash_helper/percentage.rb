@@ -1,5 +1,9 @@
+require_relative "deep_sum"
+
 module HashHelper
   module Percentage
+    include HashHelper::DeepSum
+
     def transform_values_to_percentages(precision: nil)
       total_sum = deep_sum
       return self if total_sum.zero?
