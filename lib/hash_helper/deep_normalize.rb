@@ -1,3 +1,5 @@
+require "active_support/core_ext/hash/deep_merge"
+
 module HashHelper
   module DeepNormalize
     def deep_normalize(default_value: nil)
