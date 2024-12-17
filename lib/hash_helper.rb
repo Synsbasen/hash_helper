@@ -3,6 +3,11 @@
 require_relative "hash_helper/version"
 
 module HashHelper
-  class Error < StandardError; end
-  # Your code goes here...
+  require_relative "hash_helper/deep_invert"
+  require_relative "hash_helper/deep_normalize"
+end
+
+class Hash
+  include HashHelper::DeepInvert
+  include HashHelper::DeepNormalize
 end
