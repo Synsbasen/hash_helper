@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
 require_relative "hash_helper/version"
+require_relative "hash_helper/deep_invert"
+require_relative "hash_helper/deep_normalize"
+require_relative "hash_helper/percentage"
 
 module HashHelper
-  class Error < StandardError; end
-  # Your code goes here...
+end
+
+class Hash
+  include HashHelper::DeepInvert
+  include HashHelper::DeepNormalize
+  include HashHelper::Percentage
 end

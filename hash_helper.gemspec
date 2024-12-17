@@ -5,20 +5,18 @@ require_relative "lib/hash_helper/version"
 Gem::Specification.new do |spec|
   spec.name = "hash_helper"
   spec.version = HashHelper::VERSION
-  spec.authors = ["Tobias Knudsen"]
-  spec.email = ["tobias.knudsen@gmail.com"]
+  spec.authors = ["Jimmy Poulsen", "Tobias Knudsen"]
+  spec.email = ["jimmypoulsen96@gmail.com", "tobias.knudsen@gmail.com"]
 
-  spec.summary = "TODO: Write a short summary, because RubyGems requires one."
-  spec.description = "TODO: Write a longer description or delete this line."
-  spec.homepage = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = "Advanced utility methods for working with nested and complex hashes in Ruby."
+  spec.description   = "HashHelper is a collection of advanced helper methods for Ruby hashes. It provides tools for deep inversion, normalization, percentage calculations, recursive operations, sorting, validation, linear regression, and much more. HashHelper is designed to simplify complex hash manipulations with clean, reusable methods. Extend the power of the Hash class seamlessly!"
+  spec.homepage = "https://github.com/Synsbasen/hash_helper"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
-
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["changelog_uri"] = spec.homepage
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
@@ -33,6 +31,9 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
+
+  spec.add_dependency "rails", ">= 5.2"
+  spec.add_dependency "activesupport", ">= 6.0"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
