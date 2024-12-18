@@ -85,7 +85,7 @@ percentages = hash.deep_transform_values_to_percentages(relative: false)
 
 # Relative percentages
 relative_percentages = hash.deep_transform_values_to_percentages(relative: true)
-# Result: { a: 50.0, b: { c: 60.0, d: 40.0 }, e: 100.0 }
+# Result: { a: 25.0, b: { c: 60.0, d: 40.0 }, e: 50.0 }
 ```
 
 ---
