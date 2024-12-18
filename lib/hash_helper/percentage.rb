@@ -1,32 +1,45 @@
+require 'active_support/core_ext/hash/deep_transform_values'
+require_relative "deep_sum"
+
 module HashHelper
   module Percentage
-    def transform_values_to_percentages(precision: nil)
-      total_sum = sum_of_leaves(self)
-      return self if total_sum.zero? # If total is zero, return original hash
+    include HashHelper::DeepSum
 
-      calculate_percentages(self, total_sum, precision)
-    end
+    # Transforms all numeric values in the hash into percentages.
+    #
+    # @param [Boolean] relative If `true`, calculates percentages relative to the current layer.
+    #   If `false`, calculates percentages relative to the entire hash. Defaults to `true`.
+    # @param [Integer, nil] precision The number of decimal places to round the percentages to. Defaults to no rounding.
+    # @return [Hash] A new hash with numeric values transformed into percentages.
+    #
+    # @example Global percentages (relative: false)
+    #   { a: 50, b: { c: 30, d: 20 }, e: 100 }.deep_transform_values_to_percentages
+    #   # => { a: 25.0, b: { c: 15.0, d: 10.0 }, e: 50.0 }
+    #
+    # @example Relative percentages for each layer (relative: true)
+    #   { a: 50, b: { c: 30, d: 20 }, e: 100 }.deep_transform_values_to_percentages(relative: true)
+    #   # => { a: 50.0, b: { c: 60.0, d: 40.0 }, e: 100.0 }
+    def deep_transform_values_to_percentages(relative: true, precision: nil)
+      total_sum = deep_sum
 
-    private
+      calculate_percentage = lambda do |value|
+        return value unless value.is_a?(Numeric)
+        return value unless total_sum.positive?
 
-    # Recursively calculate the total sum of all numeric leaf values
-    def sum_of_leaves(hash)
-      hash.sum do |_k, v|
-        v.is_a?(Hash) ? sum_of_leaves(v) : (v.is_a?(Numeric) ? v.to_f : 0.0)
-      end.to_f
-    end
+        percentage = (value / total_sum.to_f * 100)
+        precision ? percentage.round(precision) : percentage
+      end
 
-    # Recursively calculate percentages for each key
-    def calculate_percentages(hash, total_sum, precision)
-      hash.transform_values do |v|
-        if v.is_a?(Hash)
-          local_sum = sum_of_leaves(v)
-          calculate_percentages(v, local_sum, precision)
-        elsif v.is_a?(Numeric)
-          percentage = (v.to_f / total_sum * 100)
-          precision ? percentage.round(precision) : percentage
+      unless relative
+        return deep_transform_values { |value| calculate_percentage.call(value) }
+      end
+
+      transform_values do |value|
+        case value
+        when Hash
+          value.deep_transform_values_to_percentages(relative: relative, precision: precision)
         else
-          v # Preserve non-numeric and nil values as they are
+          calculate_percentage.call(value)
         end
       end
     end
